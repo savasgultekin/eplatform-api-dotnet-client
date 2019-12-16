@@ -2,7 +2,7 @@
 
 namespace ePlatform.Api.Core
 {
-    public class UnauthorizedExcepiton : Exception
+    public class UnauthorizedExcepiton : ePlatformException
     {
         public UnauthorizedExcepiton(string message) : base(message)
         {

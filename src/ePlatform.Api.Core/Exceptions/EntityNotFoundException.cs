@@ -2,14 +2,14 @@
 
 namespace ePlatform.Api.Core
 {
-    public class EntityNotFoundException : Exception
+    public class EntityNotFoundException : ePlatformException
     {
-        public EntityNotFoundException(string message) : base(message)
+        public EntityNotFoundException(string message, string correlationId) : base(message, correlationId)
         {
 
         }
 
-        public EntityNotFoundException(string message, Exception innerException) : base(message, innerException)
+        public EntityNotFoundException(string message, string correlationId, Exception innerException) : base(message, correlationId, innerException)
         {
 
         }

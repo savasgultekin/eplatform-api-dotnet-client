@@ -2,7 +2,7 @@
 
 namespace ePlatform.Api.Core
 {
-    public class ForbiddenExcepitons : Exception
+    public class ForbiddenExcepitons : ePlatformException
     {
         public ForbiddenExcepitons(string message) : base(message)
         {

@@ -23,7 +23,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
         }
 
         [Fact]
-        public async Task Http_404_shold_throw_EntityNotFoundException()
+        public async Task Http_404_should_throw_EntityNotFoundException()
         {
             var notExistingInvoiceId = Guid.Parse("85733EDC-958B-4C80-9E49-8942B85D0156");
             await Assert.ThrowsAsync<EntityNotFoundException>(async () =>
@@ -33,7 +33,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
         }
 
         [Fact]
-        public async Task page_size_shold_return_number_of_page_size_item()
+        public async Task page_size_should_return_number_of_page_size_item()
         {
             var query = new QueryFilterBuilder<OutboxInvoiceGetModel>()
                 .PageIndex(1)
@@ -42,7 +42,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
                 .Build();
 
             var result = await inboxInvoiceClient.Get(query);
-            Assert.Equal(true, result.Items.All(q => q.Currency == "TRY"));
+            Assert.True(result.Items.All(q => q.Currency == "TRY"));
             Assert.Equal(3, result.Items.Count());
         }
 
@@ -78,7 +78,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
             using (var reader = new StreamReader(streamData, Encoding.UTF8))
             {
                 string value = reader.ReadToEnd();
-                Assert.True(value.Contains("PDF"));
+                Assert.Contains("PDF", value);
             }
 
         }
@@ -97,14 +97,14 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
             using (var reader = new StreamReader(streamData, Encoding.UTF8))
             {
                 string value = reader.ReadToEnd();
-                Assert.True(value.Contains("<html>"));
-                Assert.True(value.Contains("</html>"));
-                Assert.True(value.Contains("<head>"));
+                Assert.Contains("<html>", value);
+                Assert.Contains("</html>", value);
+                Assert.Contains("<head>", value);
             }
 
         }
         [Fact]
-        public async Task Http_404_shold_throw_EntityNotFoundException_Get_Html()
+        public async Task Http_404_should_throw_EntityNotFoundException_Get_Html()
         {
             var notExistingInvoiceId = Guid.Parse("85733EDC-958B-4C80-9E49-8942B85D0156");
             await Assert.ThrowsAsync<EntityNotFoundException>(async () =>
@@ -135,7 +135,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
             }
         }
         [Fact]
-        public async Task Http_404_shold_throw_EntityNotFoundException_Get_Ubl()
+        public async Task Http_404_should_throw_EntityNotFoundException_Get_Ubl()
         {
             var notExistingInvoiceId = Guid.Parse("85733EDC-958B-4C80-9E49-8942B85D0156");
             await Assert.ThrowsAsync<EntityNotFoundException>(async () =>

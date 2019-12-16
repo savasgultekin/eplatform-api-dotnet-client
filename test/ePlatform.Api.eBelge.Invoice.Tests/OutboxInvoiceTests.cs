@@ -20,7 +20,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
         }
 
         [Fact]
-        public async Task Http_404_shold_throw_EntityNotFoundException()
+        public async Task Http_404_should_throw_EntityNotFoundException()
         {
             var notExistingInvoiceId = Guid.Parse("85733EDC-958B-4C80-9E49-8942B85D0156");
             await Assert.ThrowsAsync<EntityNotFoundException>(async () =>
@@ -30,7 +30,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
         }
 
         [Fact]
-        public async Task Http_422_shold_throw_EntityValidationException()
+        public async Task Http_422_should_throw_EntityValidationException()
         {
             var ublModel = new UblBuilderModel
             {
@@ -57,7 +57,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
         }
 
         [Fact]
-        public async Task page_size_shold_return_number_of_page_size_item()
+        public async Task page_size_should_return_number_of_page_size_item()
         {
             var notExistingInvoiceId = Guid.Parse("85733EDC-958B-4C80-9E49-8942B85D0156");
             var query = new QueryFilterBuilder<OutboxInvoiceGetModel>()
@@ -66,7 +66,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
                 .QueryFor(q => q.Currency, Operator.Equal, "TRY")
                 .Build();
 
-            var result = await outboxInvoiceClient.Get(query);
+            var result = await outboxInvoiceClient.GetList(query);
             Assert.Equal(3, result.PageSize);
             Assert.Equal(3, result.Items.Count());
         }

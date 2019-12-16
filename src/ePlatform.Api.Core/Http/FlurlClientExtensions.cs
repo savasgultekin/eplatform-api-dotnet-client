@@ -43,52 +43,36 @@ namespace ePlatform.Api.Core.Http
             {
                 config.OnErrorAsync = async httpCall =>
                 {
-                    await Handle422Async(httpCall);
-                    await Handle404Async(httpCall);
-                    await Handle401Async(httpCall);
-                    await Handle403Async(httpCall);
+                    httpCall.ExceptionHandled = true;
+                    var correlationId = httpCall.Response.GetHeaderValue("X-Correlation-Id");
+
+                    if ((int)httpCall.HttpStatus == 422)
+                    {
+                        var result = JsonConvert.DeserializeObject<Dictionary<string, IEnumerable<string>>>(await httpCall.Response.Content.ReadAsStringAsync());
+                        if (result.Any())
+                        {
+                            throw new EntityValidationException(result, result.FirstOrDefault().Value.FirstOrDefault(), correlationId, httpCall.Exception);
+                        }
+                    }
+                    else if (httpCall.HttpStatus == System.Net.HttpStatusCode.NotFound)
+                    {
+                        throw new EntityNotFoundException(await httpCall.Response.Content.ReadAsStringAsync(), correlationId, httpCall.Exception);
+                    }
+                    else if (httpCall.HttpStatus == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        throw new ForbiddenExcepitons(await httpCall.Response.Content.ReadAsStringAsync(), httpCall.Exception);
+                    }
+                    else if (httpCall.HttpStatus == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        throw new UnauthorizedExcepiton(await httpCall.Response.Content.ReadAsStringAsync(), httpCall.Exception);
+                    }
+                    else
+                    {
+                        throw new ePlatformException(await httpCall.Response.Content.ReadAsStringAsync(), correlationId, httpCall.Exception);
+                    }
+
                 };
             });
-        }
-
-        private static async Task Handle422Async(HttpCall call)
-        {
-            if ((int)call.HttpStatus == 422)
-            {
-                call.ExceptionHandled = true;
-                var result = JsonConvert.DeserializeObject<Dictionary<string, IEnumerable<string>>>(await call.Response.Content.ReadAsStringAsync());
-                if (result.Any())
-                {
-                    throw new EntityValidationException(result, result.FirstOrDefault().Value.FirstOrDefault(), call.Exception);
-                }
-            }
-        }
-
-        private static async Task Handle404Async(HttpCall call)
-        {
-            if (call.HttpStatus == System.Net.HttpStatusCode.NotFound)
-            {
-                call.ExceptionHandled = true;
-                throw new EntityNotFoundException(await call.Response.Content.ReadAsStringAsync(), call.Exception);
-            }
-        }
-
-        private static async Task Handle403Async(HttpCall call)
-        {
-            if (call.HttpStatus == System.Net.HttpStatusCode.Forbidden)
-            {
-                call.ExceptionHandled = true;
-                throw new ForbiddenExcepitons(await call.Response.Content.ReadAsStringAsync(), call.Exception);
-            }
-        }
-
-        private static async Task Handle401Async(HttpCall call)
-        {
-            if (call.HttpStatus == System.Net.HttpStatusCode.Unauthorized)
-            {
-                call.ExceptionHandled = true;
-                throw new UnauthorizedExcepiton(await call.Response.Content.ReadAsStringAsync(), call.Exception);
-            }
         }
     }
 }

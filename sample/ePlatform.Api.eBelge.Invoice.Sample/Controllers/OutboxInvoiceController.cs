@@ -46,7 +46,7 @@ namespace ePlatform.Api.eBelge.Invoice.Sample.Controllers
             // .QueryFor(q => q.InvoiceNumber, Operator.Equal, "EPK2019000001731")
             // .QueryFor(q => q.Status, Operator.Equal, InvoiceStatus.Error)
                 .Build();
-            return await _outboxInvoiceClient.Get(model);
+            return await _outboxInvoiceClient.GetList(model);
         }
 
         [HttpGet("pdf/{id}")] //1d9a9825-d0bb-4303-9d87-f3ae435cedc4
@@ -57,7 +57,7 @@ namespace ePlatform.Api.eBelge.Invoice.Sample.Controllers
         }
 
         [HttpPost("post-invoice")]
-        public async Task<IActionResult> Post(Guid id)
+        public async Task<IActionResult> Post()
         {
             var filledModel = FillUblModel.fillUblModel();
             var data = await _outboxInvoiceClient.Post(filledModel);

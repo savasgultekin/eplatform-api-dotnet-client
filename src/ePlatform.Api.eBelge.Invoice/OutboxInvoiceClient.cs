@@ -53,7 +53,7 @@ namespace ePlatform.Api.eBelge.Invoice
         /// <summary>
         /// Get Filtered Outbox Invoice
         /// </summary>
-        public async Task<PagedList<OutboxInvoiceGetModel>> Get(PagingModel model)
+        public async Task<PagedList<OutboxInvoiceGetModel>> GetList(PagingModel model)
         {
             return await flurlClient.Request($"/v1/outboxinvoice/list")
                 .SetQueryParams(model)

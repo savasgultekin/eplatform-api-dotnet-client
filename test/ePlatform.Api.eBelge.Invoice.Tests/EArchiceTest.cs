@@ -42,7 +42,7 @@ namespace ePlatform.Api.eBelge.Invoice.Tests
                 .Build();
 
             var result = await earchiceInvoiceClient.Get(query);
-            Assert.Equal(true, result.Items.All(q => q.Currency == "TRY"));
+            Assert.True(result.Items.All(q => q.Currency == "TRY"));
             Assert.Equal(3, result.Items.Count());
         }
 
