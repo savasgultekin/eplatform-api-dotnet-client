@@ -3,13 +3,15 @@
 ## Turkcell e-Şirket e-Belge uygulamaları için .Net Client
 
 
-NuGet paketi olan, ePlatform.eBelge.Api.Client.{version}.nupkg paketini projenize eklemelisiniz.
+NuGet paketini, nuget.org üzerinden uygulamanıza dahil edebilirsiniz.
 
-Paket sürümü netstandard2.0 ve üstünü desteklemektedir. .Net 4.6 desteği ilerleyen zamanlarda kazandırılacaktır.
+> dotnet add package ePlatform.Api.eBelge.Invoice --version 1.1.0
+
+> Install-Package ePlatform.Api.eBelge.Invoice -Version 1.1.0
 
 ### Kullanım
 
-.NetCore projesinizde, startup.cs dosyasında, ConfigureServices kısmına, Client için gerekli kısımları eklemelisiniz.
+.Net Core projesinizde, startup.cs dosyasında, ConfigureServices kısmına, Client için gerekli kısımları eklemelisiniz.
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -30,7 +32,7 @@ Uygulamanızın AppSettings.json dosyasında, Client için gerekli ilgili model 
         }
     }
 
-Sample projesinden yer alan Controller'lar içerisinde görebileceğiniz şekilde, ilgili servisleri inject edip kullanmanız gerekmektedir.
+sample dizini içerisinde yer alan projeler vasıtasıyla örnek kullanımları görebilir, .Net Core ve .Net 4.6 için hazırlanan örnekleri inceleyebilirsiniz.
 
 ## Teknik dökümantasyon
 [https://developer.turkcellesirket.com/](https://developer.turkcellesirket.com/)
